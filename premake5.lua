@@ -11,7 +11,7 @@ project "GLFW"
         "include/GLFW/glfw3.h",
         "include/GLFW/glfw3native.h",
         "src/glfw_config.h",
-        -- All the .c files shared between platforms
+        -- All common .c files
         "src/context.c",
         "src/init.c",
         "src/input.c",
@@ -30,11 +30,11 @@ project "GLFW"
         systemversion "latest"
         files
         {
-            -- X11-based approach
             "src/x11_init.c",
             "src/x11_monitor.c",
             "src/x11_window.c",
             "src/xkb_unicode.c",
+            "src/posix_poll.c",      -- Add this
             "src/posix_module.c",
             "src/posix_time.c",
             "src/posix_thread.c",
@@ -47,11 +47,12 @@ project "GLFW"
         {
             "_GLFW_X11"
         }
-        links {
+        links
+        {
             "X11",
             "pthread",
             "dl"
-            -- etc. as needed
+            -- Possibly "GL" if you need it here
         }
 
     filter "configurations:Debug"
