@@ -1,7 +1,6 @@
 project "GLFW"
     kind "StaticLib"
     language "C"
-    staticruntime "off"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -26,15 +25,16 @@ project "GLFW"
     }
 
     filter "system:linux"
-        pic "On"
         systemversion "latest"
+        staticruntime "on"
+        
         files
         {
             "src/x11_init.c",
             "src/x11_monitor.c",
             "src/x11_window.c",
             "src/xkb_unicode.c",
-            "src/posix_poll.c",      -- Add this
+            "src/posix_poll.c",
             "src/posix_module.c",
             "src/posix_time.c",
             "src/posix_thread.c",
@@ -52,18 +52,13 @@ project "GLFW"
             "X11",
             "pthread",
             "dl"
-            -- Possibly "GL" if you need it here
         }
+
 
     filter "configurations:Debug"
         runtime "Debug"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         runtime "Release"
-        optimize "On"
-
-    filter "configurations:Dist"
-        runtime "Release"
-        optimize "On"
-        symbols "Off"
+        optimize "on"
